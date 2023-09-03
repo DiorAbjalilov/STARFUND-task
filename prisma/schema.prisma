@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model fight {
+  id          Int       @id @default(autoincrement())
+  first_name  String
+  age         Int
+  weight      Int
+  nationality String
+  last_name   String?
+  team        String?
+  category    String?
+  wins        Int?
+  losses      Int?
+  knockout    Int?
+  events      events?   @relation(fields: [eventsId], references: [id])
+  eventsId    Int?
+  fighters    fighters? @relation(fields: [fightersId], references: [id])
+  fightersId  Int?
+  rankings    rankings? @relation(fields: [rankingsId], references: [id])
+  rankingsId  Int?
+}
+
+model events {
+  id           Int      @id @default(autoincrement())
+  date         DateTime
+  location     String
+  promotion    String?
+  fights_count Int
+  fight_card   fight[] @relation(fields: [eventsId], references: [id])
+}
+
+model fighters {
+  id         Int      @id @default(autoincrement())
+  date       DateTime
+  location   String?
+  fight_card fight[] @relation(fields: [fightersId], references: [id])
+}
+
+model rankings {
+  id         Int     @id @default(autoincrement())
+  fight_user fight[] @relation(fields: [rankingsId], references: [id])
+  rank       Int
+}

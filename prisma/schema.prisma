@@ -33,18 +33,15 @@ model events {
   location     String
   promotion    String?
   fights_count Int
-  fight_card   fight[] @relation(fields: [eventsId], references: [id])
 }
 
 model fighters {
   id         Int      @id @default(autoincrement())
   date       DateTime
   location   String?
-  fight_card fight[] @relation(fields: [fightersId], references: [id])
 }
 
 model rankings {
   id         Int     @id @default(autoincrement())
-  fight_user fight[] @relation(fields: [rankingsId], references: [id])
   rank       Int
 }
